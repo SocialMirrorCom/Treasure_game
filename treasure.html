@@ -8,20 +8,20 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    
+
 	<title>Find the Treasure!</title>
 </head>
 <body>
 	<header>
 		<div class="container">
-			<h1 class="heading">Find the Treasure!</h1>
-			<p class="description"></p>
+			<h1 class="heading text-center text-info">Find the Treasure!</h1>
+			<p class="description text-center text-body"></p>
 		</div>
 	</header>
 	<main>
-		<div class="container">
-			<img src="" alt="" class="map">
-			<p class="distance"></p>
+		<div class="container d-flex justify-content-center">
+			<img src="img/map.jpg" alt="Map" id="map" width="700" height="500">
+			<p class="text-danger" id="distance"></p>
 		</div>
 	</main>
 
@@ -29,6 +29,65 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
+		// Переменные.
+		// Создаем функцию для получения рандомного числа, не превышающее заданный размер.
+		var getRandomNumber = function(size) {
+			return Math.floor(Math.random() * size);
+		};
+		// Указываем размер карты (объекта, клики на который нужно учитывать в игре)
+		var width = 700;
+		var height = 500;
+		// Задаем объект - рандомные координаты клада
+		var target =  {
+			x: getRandomNumber(width),
+			y: getRandomNumber(height)
+		};
+		// Переменная для учета кликов
+		var clicks = 0;
+
+		// Функция для вычисления расстояния от места клика до места клада.
+
+		var getDistance = function(event, target) { // У функции два аргумента: событие и объект - координаты клада
+			var diffX = event.offsetX - target.x; // Вычисляем расстояние между кликом и кладом по оси Х
+			var diffY = event.offsetY - target.y; // Вычисляем расстояние между кликом и кладом по оси У
+			return Math.sqrt((diffX * diffX) + (diffY * diffY)); // С помощью JS функции Math.sqrt извлекаем квадратный корень из суммы квадратов х и у, чтобы узнать расстояние между кликом и кладом (теорема Пифагора)
+		}
+
+		// Создаем функцию с аргументом расстояние, чтобы давать игрокам подсказки, насколько далеко они от клада.
+
+		var getDistanceHint = function (distance) {
+			if (distance < 10) {
+				return "Обожжешься!";
+			} else if (distance < 30) {
+				return "Очень горячо!";
+			} else if (distance < 60) {
+				return "Горячо!";
+			} else if (distance < 120) {
+				return "Тепло!";
+			} else if (distance < 180) {
+				return "Холодно!";
+			} else if (distance < 320) {
+				return "Очень холодно!";
+			} else {
+				return "Замерзнешь!";
+			}
+		};
+
+		var distance = getDistance(event, target);
+		var distanceHint = getDistanceHint(distance);
+		$("#distance").text(distanceHint);
+
+
+
+
+		// Функция по обработке кликов
+
+		$("#map").click(function(event) {
+
+			clicks++;
+
+		}
+			);
 		
 	</script>
 </body>
