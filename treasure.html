@@ -20,30 +20,19 @@
 	</header>
 	<main>
 		<div class="container d-flex justify-content-center">
-			<img src="img/map.jpg" alt="Map" id="map" width="700" height="500">
-			<p class="text-danger" id="distance"></p>
+			<img src="img/map.jpg" alt="Map" id="map" width="700" height="500">	
 		</div>
+		<h2 class="text-danger text-center m-2" id="distance"></h2>
 	</main>
 
 	<!--Подгружаем библиотеку JQuery-->
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
-		// Переменные.
 		// Создаем функцию для получения рандомного числа, не превышающее заданный размер.
 		var getRandomNumber = function(size) {
 			return Math.floor(Math.random() * size);
 		};
-		// Указываем размер карты (объекта, клики на который нужно учитывать в игре)
-		var width = 700;
-		var height = 500;
-		// Задаем объект - рандомные координаты клада
-		var target =  {
-			x: getRandomNumber(width),
-			y: getRandomNumber(height)
-		};
-		// Переменная для учета кликов
-		var clicks = 0;
 
 		// Функция для вычисления расстояния от места клика до места клада.
 
@@ -73,22 +62,42 @@
 			}
 		};
 
-		var distance = getDistance(event, target);
-		var distanceHint = getDistanceHint(distance);
-		$("#distance").text(distanceHint);
+		// Указываем размер карты (объекта, клики на который нужно учитывать в игре)
+		var width = 700;
+		var height = 500;
+		
+		// Переменная для учета кликов
+		var clicks = 0;
 
-
-
+		// Задаем объект - рандомные координаты клада
+		var target =  {
+			x: getRandomNumber(width),
+			y: getRandomNumber(height)
+		};
 
 		// Функция по обработке кликов
 
-		$("#map").click(function(event) {
-
+		$("#map").click(function (event) {
 			clicks++;
 
+		// Получаем расстояние от места клика до клада
+
+		var distance = getDistance(event, target);
+
+		// Преобразуем расстояние в подсказку
+
+		var distanceHint = getDistanceHint(distance);
+
+		// Выводим на экран подсказку
+
+		$("#distance").text(distanceHint);
+
+		// В случае победы
+
+		if (distance < 8) {
+			alert ("Клад найден! Сделано кликов: " + clicks);
 		}
-			);
-		
+	});	
 	</script>
 </body>
 	
